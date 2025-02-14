@@ -1,7 +1,11 @@
 [project]
 name = "updata"
 version = "0.1.0"
-description = "Add your description here"
+description = "Store daily intraday data of FUTURES/OPTIONS/CASH from nSE thorugh Upstox API. "
+authors = [
+    { name = "Vijay Londhe", email = "vijaylondhe2172@gmail.com" },
+    { name = "Parul Kakade", email = "kakadeparul2612@gmail.com" }
+]
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = []

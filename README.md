@@ -41,9 +41,6 @@ pip install -e .
 ```python
 from updata import Updata
 
-# Initialize Updata
-updata = Updata(api_key="your_upstox_api_key")
-
 # Download intraday data for options
 upd = UpData()
 data = upd.store_options_data(underlyings=['NIFTY'], underlying_type='INDEX', expiries='latest', strikes='10')
@@ -55,12 +52,24 @@ data = upd.store_options_data(underlyings=['NIFTY'], underlying_type='INDEX', ex
 
 Here’s a curated list of public sources offering free historical financial data:
 
-1. [NSE India](https://www.nseindia.com/market-data) - Daily market snapshots and historical data.
-2. [BSE India](https://www.bseindia.com/) - Equity and derivatives historical data.
-3. [Alpha Vantage](https://www.alphavantage.co/) - Free API for global equities and forex.
-4. [Quandl](https://www.quandl.com/) - Financial and economic datasets.
+### 💰 Cash Market
+
+| Name          | Description                                      | Frequency | Period | Link |
+|---------------|--------------------------------------------------|-----------|--------|------|
+| NIFTY-50 Stock Data| At a day-level with pricing and trading values split across .csv files for each stock along with a metadata file with some macro-information about the stocks itself. | Daily | Jan 2000 - Apr 2021 | [Visit](https://www.kaggle.com/datasets/rohanrao/nifty50-stock-market-data) |
+| BSE & NSE stocks | The data spans the period from 2000 to December 2023 for NSE & BSE. CSV files for each year for each company. | Daily | 2000 - Dec 2023 | [Visit](https://www.kaggle.com/datasets/chiragb254/indian-stock-market-complete-dataset-2024) |
+
+### 📈 Futures and Options
+
+| Name          | Description                                      | Frequency | Period | Link |
+|---------------|--------------------------------------------------|-----------|--------|------|
+| Upstox | Free API for global equities and forex.         | Daily | Ongoing | [Visit](https://www.alphavantage.co/) |
+| nan        | Financial and economic datasets.                | Daily | Ongoing | [Visit](https://www.quandl.com/) |
 
 ---
+
+
+
 
 ## 💡 Disclaimer
 

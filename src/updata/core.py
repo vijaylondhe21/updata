@@ -53,11 +53,11 @@ class UpData:
         # caller_dir = os.path.dirname(os.path.abspath(caller_filename))  
 
         # print(f"Saving Master CSV in: {caller_dir}")
-
+         
         symbol_master = pd.read_csv(self.symbol_master_link)
         
         opt_symbols = pd.DataFrame()
-        opt_df = pd.DataFrame()
+
         if underlying_type== 'INDEX':
             opt_symbols = symbol_master[(symbol_master.instrument_type == 'OPTIDX') &  (symbol_master.exchange == 'NSE_FO')]
 
@@ -70,8 +70,11 @@ class UpData:
 
         interval = '1minute'
         exchange_str = f'{exchange}_{underlying_type}'
+        opt_df = pd.DataFrame()
         for underlying in underlyings:
             underlying_instru_key = symbol_master[(symbol_master.instrument_type == underlying_type) &  (symbol_master.exchange == exchange_str) & (symbol_master.tradingsymbol == underlying)]
+            underlying_instru_key = underlying_instru_key['instrument_key'].iloc[0]
+
             url = f"https://api.upstox.com/v2/historical-candle/intraday/{underlying_instru_key}/{interval}"
             payload={}
             headers = {
@@ -79,8 +82,24 @@ class UpData:
             }
 
             response = requests.request("GET", url, headers=headers, data=payload)
-            options_df = opt_symbols[(opt_symbols.name == underlying )]
+            
+            
             if response.status_code == 200:
+                response_data = response.json()
+                candles_data = response_data['data']['candles']
+                columns = ['Datetime', 'Open', 'High', 'Low', 'Close', 'Volume', 'OI']
+                underlying_df = pd.DataFrame(candles_data, columns=columns)
+                atm_price = underlying_df.iloc[-1]['Close']
+
+                options_df = opt_symbols[(opt_symbols.name == underlying )]
+
+                if strikes != 'all':
+                    strikes = int(strikes)
+                    atm_strike = options_df.loc[(options_df['strike'] - atm_price).abs().idxmin(), 'strike']
+                    strike_gap = abs(atm_strike - atm_price)
+                    strike_range = [atm_strike + (i * strike_gap) for i in range(-strikes, strikes + 1)]
+
+                    options_df = options_df[options_df['strike'].isin(strike_range)]
                 for i in options_df.index:
                     
                     instrument_key =  options_df['instrument_key'][i]
@@ -97,21 +116,21 @@ class UpData:
                         columns = ['Datetime', 'Open', 'High', 'Low', 'Close', 'Volume', 'OI']
                         
                         current_symbol = pd.DataFrame(candles_data, columns=columns)
-                        current_symbol['Symbol'] = options_df['tradingsymbol'][i]
-                        # current_symbol['Date'] = pd.to_datetime(current_symbol['Datetime']).dt.date
-                        # current_symbol['Time'] = pd.to_datetime(current_symbol['Datetime']).dt.time
-                        current_symbol['Interval'] = interval
-                        current_symbol['Strike'] = options_df['strike'][i]  
-                        current_symbol['Expiry'] = options_df['expiry'][i]
-                        current_symbol['Option_type'] = options_df['option_type'][i]
-                        current_symbol['Underlying'] = underlying
+                        if not current_symbol.empty:
+                            current_symbol['Symbol'] = options_df['tradingsymbol'][i]
+                            # current_symbol['Date'] = pd.to_datetime(current_symbol['Datetime']).dt.date
+                            # current_symbol['Time'] = pd.to_datetime(current_symbol['Datetime']).dt.time
+                            current_symbol['Interval'] = interval
+                            current_symbol['Strike'] = options_df['strike'][i]  
+                            current_symbol['Expiry'] = options_df['expiry'][i]
+                            current_symbol['Option_type'] = options_df['option_type'][i]
+                            current_symbol['Underlying'] = underlying
 
 
-                        current_symbol = current_symbol[['Symbol', 'Datetime', 'Interval', 'Expiry', 'Option_type', 'Strike', 'Underlying', 'Open', 'High', 'Low', 'Close', 'Volume', 'OI']]
-                        # current_symbol.to_sql('tbl_options', con=engine, if_exists='append', INDEX=False)
+                            current_symbol = current_symbol[['Symbol', 'Datetime', 'Interval', 'Expiry', 'Option_type', 'Strike', 'Underlying', 'Open', 'High', 'Low', 'Close', 'Volume', 'OI']]
+                            opt_df = pd.concat([opt_df, current_symbol], ignore_index=True)
                         
                         print(i, "done")
-                        opt_df = pd.concat([opt_df, current_symbol], ignore_index=True)
 
                     else:
                     # Print an error message if the request was not successful

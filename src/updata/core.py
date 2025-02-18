@@ -21,8 +21,6 @@ class UpData:
             self.symbol_master_link = 'https://assets.upstox.com/market-quote/instruments/exchange/complete.csv.gz'
 
 
-    def print_it(self,st):
-        print(st)
 
     def store_options_data(self, underlyings: list, underlying_type : str, expiries: str = 'latest', strikes: str = '10', exchange : str = 'NSE'):
         """
@@ -92,14 +90,20 @@ class UpData:
                 atm_price = underlying_df.iloc[-1]['Close']
 
                 options_df = opt_symbols[(opt_symbols.name == underlying )]
-
+                options_df = options_df.sort_values(by='expiry')
                 if strikes != 'all':
                     strikes = int(strikes)
-                    atm_strike = options_df.loc[(options_df['strike'] - atm_price).abs().idxmin(), 'strike']
-                    strike_gap = abs(atm_strike - atm_price)
-                    strike_range = [atm_strike + (i * strike_gap) for i in range(-strikes, strikes + 1)]
+                    options_df['strike'] = pd.to_numeric(options_df['strike'])
+                    print(options_df['strike'].dtype)
 
-                    options_df = options_df[options_df['strike'].isin(strike_range)]
+                    atm_strike = options_df.loc[(options_df['strike'] - atm_price).abs().idxmin(), 'strike']
+                    atm_strike_1 = options_df.loc[(options_df['strike'] - atm_price).abs().nsmallest(2).index[0], 'strike']
+                    strike_gap = abs(atm_strike - atm_strike_1)
+                    print(type(atm_strike), type(strike_gap), type(strikes))
+
+                    options_df = options_df[(options_df.strike <= (atm_strike + (strike_gap * strikes ) )) & (options_df.strike >= (atm_strike - (strike_gap * strikes ) ))]
+
+
                 for i in options_df.index:
                     
                     instrument_key =  options_df['instrument_key'][i]

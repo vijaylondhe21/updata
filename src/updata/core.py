@@ -91,18 +91,29 @@ class UpData:
 
                 options_df = opt_symbols[(opt_symbols.name == underlying )]
                 options_df = options_df.sort_values(by='expiry')
+                latest_expiry = options_df['expiry'].min()
+                
                 if strikes != 'all':
                     strikes = int(strikes)
                     options_df['strike'] = pd.to_numeric(options_df['strike'])
                     print(options_df['strike'].dtype)
+                    
+                    temp_options_df = options_df[(options_df.option_type =='CE') & (options_df.expiry == latest_expiry)]
+                    strike_list = pd.Series(temp_options_df['strike'].unique())
+                    strike_list_diff = (strike_list - atm_price).abs()
 
-                    atm_strike = options_df.loc[(options_df['strike'] - atm_price).abs().idxmin(), 'strike']
-                    atm_strike_1 = options_df.loc[(options_df['strike'] - atm_price).abs().nsmallest(2).index[0], 'strike']
+                    closest_idx = strike_list_diff.idxmin()
+                    second_closest_idx = strike_list_diff.nsmallest(2).idxmax()  
+                    atm_strike = strike_list[closest_idx]
+                    atm_strike_1 = strike_list[second_closest_idx]
                     strike_gap = abs(atm_strike - atm_strike_1)
                     print(type(atm_strike), type(strike_gap), type(strikes))
 
-                    options_df = options_df[(options_df.strike <= (atm_strike + (strike_gap * strikes ) )) & (options_df.strike >= (atm_strike - (strike_gap * strikes ) ))]
-
+                    # options_df = options_df[(options_df.strike <= (atm_strike + (strike_gap * strikes ) )) & (options_df.strike >= (atm_strike - (strike_gap * strikes ) ))]
+                    upper_strike = atm_strike + (strike_gap * strikes ) 
+                    lower_strike = atm_strike - (strike_gap * strikes ) 
+                    strike_range = options_df['strike'].between(lower_strike,upper_strike , inclusive = 'both')
+                    options_df = options_df[strike_range]
 
                 for i in options_df.index:
                     
@@ -132,6 +143,7 @@ class UpData:
 
 
                             current_symbol = current_symbol[['Symbol', 'Datetime', 'Interval', 'Expiry', 'Option_type', 'Strike', 'Underlying', 'Open', 'High', 'Low', 'Close', 'Volume', 'OI']]
+                            current_symbol = current_symbol.sort_values(by='Datetime')
                             opt_df = pd.concat([opt_df, current_symbol], ignore_index=True)
                         
                         print(i, "done")
@@ -139,7 +151,7 @@ class UpData:
                     else:
                     # Print an error message if the request was not successful
                         print(f"Error: {response.status_code} - {response.text}")
-
+        opt_df.ind
         return opt_df
 
 

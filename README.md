@@ -8,7 +8,7 @@ Welcome to **Updata**, a flexible Python library designed to simplify your India
 
 ✅ **Download Intraday Data:**
 - Fetch daily intraday data for Options, Futures, and Equities.
-- Store the data locally for faster analysis and backtesting.
+- Store the data locally in CSVs or database (ArcticDB ).
 
 ✅ **Get Historical Data:**
 - Seamlessly retrieve historical market data using the **Upstox API** (no need for an Upstox account as of now).
@@ -16,7 +16,7 @@ Welcome to **Updata**, a flexible Python library designed to simplify your India
 
 ✅ **One-Stop Historical Data Hub:**
 - Find and aggregate publicly available financial data in one place.
-- Explore the "Historical Data Available on the Internet" section for free resources.
+- Explore the ["Historical Data Available on the Internet"](#-historical-data-available-on-the-internet) section for free resources.
 
 ---
 
@@ -26,13 +26,6 @@ Welcome to **Updata**, a flexible Python library designed to simplify your India
 pip install updata
 ```
 
-Or, if you want the latest development version:
-
-```bash
-git clone https://github.com/yourusername/updata.git
-cd updata
-pip install -e .
-```
 
 ---
 
@@ -40,10 +33,11 @@ pip install -e .
 
 ```python
 from updata import Updata
-
+import pandas as pd
 # Download intraday data for options
 upd = UpData()
-data = upd.store_options_data(underlyings=['NIFTY'], underlying_type='INDEX', expiries='latest', strikes='10')
+data = upd.store_options_data(underlyings=['NIFTY'],underlying_type='INDEX', expiries='2',strikes='3')
+data.to_csv('data.csv')
 ```
 
 ---
@@ -75,7 +69,7 @@ Here’s a curated list of public sources offering free historical financial dat
 
 - I do not own this data and I am not selling this data.
 - This data is intended for **research purposes only**.
-- I am not affiliated with Upstox, NSE, or any other exchange in India.
+- I am not affiliated with Upstox, NSE, or any other exchange mentioned anywhere in this package.
 
 ---
 
@@ -87,14 +81,12 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 ## ✨ Stay Connected
 
-- ⭐ Star this repository to show your support!
-- 🐦 Follow us on Twitter for updates and financial insights.
-
+- 🐦 Follow us on Socials.
+- ![Twitter](https://img.shields.io/badge/Twitter-1DA1F2?logo=twitter&logoColor=white) [Vijay](https://x.com/kon_vijay)
+- ![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?logo=linkedin&logoColor=white) [Vijay](https://www.linkedin.com/in/vijaylondhe)
+- ![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?logo=linkedin&logoColor=white) [Parul](https://www.linkedin.com/in/parulkakade)
 ---
 
 **Updata — Your Financial Data Research Ends Here.**
 
----
-
-Let me know if you’d like to add badges, GitHub actions, or a logo for a more polished look!
 

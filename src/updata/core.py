@@ -22,7 +22,7 @@ class UpData:
 
 
 
-    def store_options_data(self, underlyings: list, underlying_type : str, expiries: str = 'latest', strikes: str = '10', exchange : str = 'NSE'):
+    def store_options_data(self, underlyings: list, underlying_type : str, expiries: str = '1', strikes: str = '5', exchange : str = 'NSE'):
         """
         Stores options data for the given underlyings and expiries.
 
@@ -32,12 +32,12 @@ class UpData:
             underlying_type (str, **Required.**):  
                 - `'INDEX'`: given underlyings are INDEX.
                 - `'EQUITY'`: given underlyings are EQUITY.
-            expiries (str, optional): Defines which expiries to store. Defaults to `'latest'`.  
-                - `'latest'`: Only stores the current expiry.  
-                - `'month'`: Stores all expiries within the current month.  
+            expiries (str, optional): Defines which expiries to store. Defaults to `'0'`.  
+                - `'1'`: store only recent expiry.  
+                - `'2'`: store recent + 1. Any number can be given  
                 - `'all'`: Stores all available expiries.  
             strikes (str, optional): Defines which strikes to store. Defaults to `'10'`.  
-                - `'10'`: Stores ATM ± 10 strikes. Can specify any number. ATM is assumed at the **9:15 AM Open price**.  
+                - `'5'`: Stores ATM ± 5 strikes. Can specify any number. ATM is assumed at the **9:15 AM Open price**.  
                 - `'all'`: Stores all available strikes.  
             exchange (str , **Required.**):  Exhnage to download data from. currently only NSE is supported  
                 - `'NSE'`: National Stock Exchange.  
@@ -92,24 +92,26 @@ class UpData:
                 options_df = opt_symbols[(opt_symbols.name == underlying )]
                 options_df = options_df.sort_values(by='expiry')
                 latest_expiry = options_df['expiry'].min()
-                
+                if expiries != 'all':
+                    expiries = int(expiries)
+                    all_expiries = options_df['expiry'].unique()
+                    all_expiries = all_expiries[:expiries]
+                    options_df = options_df[(options_df.expiry <= all_expiries[-1])]
+
                 if strikes != 'all':
                     strikes = int(strikes)
                     options_df['strike'] = pd.to_numeric(options_df['strike'])
-                    print(options_df['strike'].dtype)
                     
+                    # selected latest expiry and only CE to get strike list and strike gap
                     temp_options_df = options_df[(options_df.option_type =='CE') & (options_df.expiry == latest_expiry)]
                     strike_list = pd.Series(temp_options_df['strike'].unique())
                     strike_list_diff = (strike_list - atm_price).abs()
-
                     closest_idx = strike_list_diff.idxmin()
                     second_closest_idx = strike_list_diff.nsmallest(2).idxmax()  
                     atm_strike = strike_list[closest_idx]
                     atm_strike_1 = strike_list[second_closest_idx]
                     strike_gap = abs(atm_strike - atm_strike_1)
-                    print(type(atm_strike), type(strike_gap), type(strikes))
 
-                    # options_df = options_df[(options_df.strike <= (atm_strike + (strike_gap * strikes ) )) & (options_df.strike >= (atm_strike - (strike_gap * strikes ) ))]
                     upper_strike = atm_strike + (strike_gap * strikes ) 
                     lower_strike = atm_strike - (strike_gap * strikes ) 
                     strike_range = options_df['strike'].between(lower_strike,upper_strike , inclusive = 'both')
@@ -151,7 +153,7 @@ class UpData:
                     else:
                     # Print an error message if the request was not successful
                         print(f"Error: {response.status_code} - {response.text}")
-        opt_df.ind
+        opt_df.reset_index(inplace=True, drop=True)
         return opt_df
 
 

@@ -1,4 +1,4 @@
-# Updata: Your Financial Data Research Ends Here
+# Updata: Your Market Data Research Ends Here
 
 Welcome to **Updata**, a flexible Python library designed to simplify your Indian financial data research workflow. With Updata, you can effortlessly store daily intraday data for Options, Futures, and Equities. This repository gives you sources for available historical data so you don't have to find it on the internet each time.
 
@@ -39,6 +39,16 @@ upd = UpData()
 data = upd.store_options_data(underlyings=['NIFTY'],underlying_type='INDEX', expiries='2',strikes='3')
 data.to_csv('data.csv')
 ```
+
+---
+
+## 📌 TODO
+
+- [x] store_option_data
+- [ ] store_cash_data
+- [ ] store_future_data
+- [ ] add arcticDB option
+- [ ] add more F&O and intraday sources in Readme.md 
 
 ---
 
@@ -87,6 +97,6 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 - ![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?logo=linkedin&logoColor=white) [Parul](https://www.linkedin.com/in/parulkakade)
 ---
 
-**Updata — Your Financial Data Research Ends Here.**
+**Updata — Your Market Data Research Ends Here.**
 
 

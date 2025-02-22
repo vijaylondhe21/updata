@@ -59,15 +59,14 @@ Here’s a curated list of public sources offering free historical financial dat
 
 | Name          | Description                                      | Frequency | Period | Link |
 |---------------|--------------------------------------------------|-----------|--------|------|
-| NIFTY-50 Stock Data| At a day-level with pricing and trading values split across .csv files for each stock along with a metadata file with some macro-information about the stocks itself. | Daily | Jan 2000 - Apr 2021 | [Visit](https://www.kaggle.com/datasets/rohanrao/nifty50-stock-market-data) |
-| BSE & NSE stocks | The data spans the period from 2000 to December 2023 for NSE & BSE. CSV files for each year for each company. | Daily | 2000 - Dec 2023 | [Visit](https://www.kaggle.com/datasets/chiragb254/indian-stock-market-complete-dataset-2024) |
+| NIFTY-50 Stock Data| At a day-level with pricing and trading values split across .csv files for each stock along with a metadata file with some macro-information about the stocks itself.| Daily| Jan 2000 - Apr 2021| [Visit](https://www.kaggle.com/datasets/rohanrao/nifty50-stock-market-data)|
+| BSE & NSE stocks| The data spans the period from 2000 to December 2023 for NSE & BSE. CSV files for each year for each company.| Daily| 2000 - Dec 2023| [Visit](https://www.kaggle.com/datasets/chiragb254/indian-stock-market-complete-dataset-2024)|
+|Nifty 500 stocks | Each stock in this Nifty 500 and are of 1 minute itraday data  - Data is updated Weekly| 1 minute| 2015 to 2025| [Visit](https://www.kaggle.com/datasets/debashis74017/algo-trading-data-nifty-100-data-with-indicators)|
+|Nifty & BankNifty | Minute by minute OHLC data for two indices (NIFTY and BANKNIFTY) | 1 minute| 2008-2020| [Visit](https://www.kaggle.com/datasets/nishanthsalian/indian-stock-index-1minute-data-2008-2020)|
 
 ### Futures and Options
 
-| Name          | Description                                      | Frequency | Period | Link |
-|---------------|--------------------------------------------------|-----------|--------|------|
-| Upstox | Free API for global equities and forex.         | Daily | Ongoing | [Visit](https://www.alphavantage.co/) |
-| nan        | Financial and economic datasets.                | Daily | Ongoing | [Visit](https://www.quandl.com/) |
+There isn't any data available for free. We'll try to find some data and update here othewise we'll soon upload data stored by us. If you find some useful dataset then contribute by raising issue and mentioning the URL of dataset.
 
 ---
 

@@ -1,20 +1,11 @@
 import requests
-import os
 import pandas as pd
-import inspect
-import re
-# url = "https://api.upstox.com/v2/historical-candle/intraday/:instrument_key/:interval"
 
-# payload={}
-# headers = {
-#   'Accept': 'application/json'
-# }
-
-# response = requests.request("GET", url, headers=headers, data=payload)
-
-# print(response.text)
 
 class UpData:
+    '''
+    Currently source for fetching data is Upstox as they are providing data without the need of login. If upstox change this policy in future and requires user to login via API key then we'll find some new source or use NSE bhavcopy.
+    '''
     def __init__(self, source='UPSTOX'):
         self.source = source
         if self.source == 'UPSTOX':
@@ -24,7 +15,7 @@ class UpData:
 
     def store_options_data(self, underlyings: list, underlying_type : str, expiries: str = '1', strikes: str = '5', exchange : str = 'NSE'):
         """
-        Stores options data for the given underlyings and expiries.
+        Fetch options data for the given underlyings and expiries.
 
         Args:
             underlyings (list[],  **Required.**): List of underlying indices or stocks for which data will be stored.  
@@ -40,20 +31,12 @@ class UpData:
                 - `'5'`: Stores ATM ± 5 strikes. Can specify any number. ATM is assumed at the **9:15 AM Open price**.  
                 - `'all'`: Stores all available strikes.  
             exchange (str , **Required.**):  Exhnage to download data from. currently only NSE is supported  
-                - `'NSE'`: National Stock Exchange.  
+                - `'NSE'`: National Stock Exchange.    
 
-        Returns:
+        Returns: 
             DataFrame 
-        """
-        # # Store CSV in same directory where this function is called
-        # caller_frame = inspect.stack()[1]  
-        # caller_filename = caller_frame.filename  
-        # caller_dir = os.path.dirname(os.path.abspath(caller_filename))  
-
-        # print(f"Saving Master CSV in: {caller_dir}")
-         
+        """         
         symbol_master = pd.read_csv(self.symbol_master_link)
-        
         opt_symbols = pd.DataFrame()
 
         if underlying_type== 'INDEX':
@@ -80,7 +63,6 @@ class UpData:
             }
 
             response = requests.request("GET", url, headers=headers, data=payload)
-            
             
             if response.status_code == 200:
                 response_data = response.json()
@@ -154,11 +136,7 @@ class UpData:
                     # Print an error message if the request was not successful
                         print(f"Error: {response.status_code} - {response.text}")
         opt_df.reset_index(inplace=True, drop=True)
+                        
         return opt_df
 
-
-# if __name__ == '__main__':
-
-#     upd = UpData()
-#     upd.store_options_data(underlyings=['NIFTY'],expiries='latest',strikes='10')
     

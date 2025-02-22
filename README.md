@@ -4,19 +4,20 @@ Welcome to **Updata**, a flexible Python library designed to simplify your India
 
 ---
 
-## 🚀 Features
+## Features
 
-✅ **Download Intraday Data:**
-- Fetch daily intraday data for Options, Futures, and Equities.
-- Store the data locally in CSVs or database (ArcticDB ).
+**Download Intraday Data:**
+-Fetch daily intraday data for Options, Futures, and Equities.
+-Store the data locally
+-check [examples] section to schedule script, store in CSV, SQlite, duckDB, ArcticDB, Postgres
 
-✅ **Get Historical Data:**
-- Seamlessly retrieve historical market data using the **Upstox API** (no need for an Upstox account as of now).
-- Supports multiple instruments and exchanges.
+**Get Historical Data:**
+-Seamlessly retrieve historical market data using the **Upstox API** (no need for an Upstox account as of now).
+-Supports multiple instruments and exchanges.
 
-✅ **One-Stop Historical Data Hub:**
-- Find and aggregate publicly available financial data in one place.
-- Explore the ["Historical Data Available on the Internet"](#-historical-data-available-on-the-internet) section for free resources.
+**One-Stop Historical Data Hub:**
+-Find publicly available financial data in one place.
+-Explore the ["Historical Data Available on the Internet"](#-historical-data-available-on-the-internet) section for all free resources.
 
 ---
 
@@ -26,10 +27,9 @@ Welcome to **Updata**, a flexible Python library designed to simplify your India
 pip install updata
 ```
 
-
 ---
 
-## 📈 Usage
+## Usage
 
 ```python
 from updata import Updata
@@ -47,8 +47,7 @@ data.to_csv('data.csv')
 - [x] store_option_data
 - [ ] store_cash_data
 - [ ] store_future_data
-- [ ] add arcticDB option
-- [ ] add more F&O and intraday sources in Readme.md 
+- [ ] add more F&O and intraday sources in Readme.md
 
 ---
 
@@ -56,14 +55,14 @@ data.to_csv('data.csv')
 
 Here’s a curated list of public sources offering free historical financial data:
 
-### 💰 Cash Market
+### Cash Market
 
 | Name          | Description                                      | Frequency | Period | Link |
 |---------------|--------------------------------------------------|-----------|--------|------|
 | NIFTY-50 Stock Data| At a day-level with pricing and trading values split across .csv files for each stock along with a metadata file with some macro-information about the stocks itself. | Daily | Jan 2000 - Apr 2021 | [Visit](https://www.kaggle.com/datasets/rohanrao/nifty50-stock-market-data) |
 | BSE & NSE stocks | The data spans the period from 2000 to December 2023 for NSE & BSE. CSV files for each year for each company. | Daily | 2000 - Dec 2023 | [Visit](https://www.kaggle.com/datasets/chiragb254/indian-stock-market-complete-dataset-2024) |
 
-### 📈 Futures and Options
+### Futures and Options
 
 | Name          | Description                                      | Frequency | Period | Link |
 |---------------|--------------------------------------------------|-----------|--------|------|
@@ -72,10 +71,7 @@ Here’s a curated list of public sources offering free historical financial dat
 
 ---
 
-
-
-
-## 💡 Disclaimer
+## Disclaimer
 
 - I do not own this data and I am not selling this data.
 - This data is intended for **research purposes only**.
@@ -83,7 +79,7 @@ Here’s a curated list of public sources offering free historical financial dat
 
 ---
 
-## 🌜 License
+## License
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
 
@@ -95,8 +91,10 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 - ![Twitter](https://img.shields.io/badge/Twitter-1DA1F2?logo=twitter&logoColor=white) [Vijay](https://x.com/kon_vijay)
 - ![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?logo=linkedin&logoColor=white) [Vijay](https://www.linkedin.com/in/vijaylondhe)
 - ![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?logo=linkedin&logoColor=white) [Parul](https://www.linkedin.com/in/parulkakade)
+
 ---
 
-**Updata — Your Market Data Research Ends Here.**
+## Star History  
 
-
+[![Star History Chart](https://api.star-history.com/svg?repos=vijaylondhe21
+updata&type=Date)](https://star-history.com/#vijaylondhe21updata)

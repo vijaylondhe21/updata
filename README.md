@@ -48,6 +48,13 @@ data.to_csv('data.csv')
 - [ ] store_cash_data
 - [ ] store_future_data
 - [ ] add more F&O and intraday sources in Readme.md
+- [ ] Splits data
+- [ ] Economic News data
+- [ ] Events Data
+- [ ] Margin Data
+- [ ] Lot size change Data
+- [ ] Dividend Data
+- [ ] Checking data quality
 
 ---
 
@@ -90,10 +97,3 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 - ![Twitter](https://img.shields.io/badge/Twitter-1DA1F2?logo=twitter&logoColor=white) [Vijay](https://x.com/kon_vijay)
 - ![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?logo=linkedin&logoColor=white) [Vijay](https://www.linkedin.com/in/vijaylondhe)
 - ![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?logo=linkedin&logoColor=white) [Parul](https://www.linkedin.com/in/parulkakade)
-
----
-
-## Star History  
-
-[![Star History Chart](https://api.star-history.com/svg?repos=vijaylondhe21
-updata&type=Date)](https://star-history.com/#vijaylondhe21updata)

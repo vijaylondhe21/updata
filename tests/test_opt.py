@@ -7,5 +7,5 @@ from updata import UpData
 
 upd = UpData()
 dd = upd.store_options_data(underlyings=['NIFTY'],underlying_type='INDEX', expiries='2',strikes='3')
+
 dd.to_csv('hh.csv')
-# upd.print_it(st='kkk')

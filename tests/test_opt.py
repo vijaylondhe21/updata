@@ -7,5 +7,6 @@ from updata import UpData
 
 upd = UpData()
 dd = upd.store_options_data(underlyings=['NIFTY'],underlying_type='INDEX', expiries='2',strikes='3')
-dd.to_csv('hh.csv')
+# dd = upd.store_cash_data(symbols=['ADANIPOWER', 'TATACHEM' ], exchange='NSE', symbol_type='EQUITY')
+dd.to_csv('hh1.csv')
 # upd.print_it(st='kkk')

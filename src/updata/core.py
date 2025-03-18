@@ -155,7 +155,54 @@ class UpData:
                         print(f"Error: {response.status_code} - {response.text}")
         opt_df.reset_index(inplace=True, drop=True)
         return opt_df
+    
+    def store_cash_data(self, symbols :list, exchange : str = 'NSE', symbol_type: str = 'INDEX'):
+        """
+        description
+        """
+        symbol_master = pd.read_csv(self.symbol_master_link)
+        cash_symbols = pd.DataFrame()
 
+        if symbol_type== 'INDEX':
+            instru_type = 'INDEX'
+            exchange_str = f'{exchange}_{instru_type}'
+            cash_symbols = symbol_master[(symbol_master.instrument_type == 'INDEX') & (symbol_master.exchange == exchange_str)]
+            cash_symbols = cash_symbols[cash_symbols['tradingsymbol'].isin(symbols)]
+
+        elif symbol_type== 'EQUITY':
+            instru_type = 'EQ'
+            exchange_str = f'{exchange}_{instru_type}'
+            cash_symbols = symbol_master[(symbol_master.instrument_type == 'EQUITY')& (symbol_master.exchange == exchange_str)]
+            cash_symbols = cash_symbols[cash_symbols['tradingsymbol'].isin(symbols)]
+        else :
+            return ValueError(f"give underlying_type = `INDEX` or `EQUITY` only not {instru_type}")
+
+        cash_df = pd.DataFrame() 
+
+        for i in cash_symbols.index:           
+            instrument_key = cash_symbols['instrument_key'][i]
+            interval = '1minute'
+            url = f'https://api.upstox.com/v2/historical-candle/intraday/{instrument_key}/{interval}'
+            headers = {'Accept': 'application/json'}
+            response = requests.get(url, headers=headers)
+            if response.status_code == 200:
+                response_data = response.json()
+                candles_data = response_data['data']['candles']
+                columns = ['Datetime', 'Open', 'High', 'Low', 'Close', 'Volume' , 'OI']
+                current_symbol = pd.DataFrame(candles_data, columns=columns)
+                current_symbol['Datetime'] = pd.to_datetime(current_symbol['Datetime'])
+                current_symbol['Interval'] = interval
+                current_symbol['Symbol'] = cash_symbols['tradingsymbol'][i]
+                current_symbol['Exchange'] = (instrument_key).split('|')[0]
+                fname=(instrument_key).split('|')[1]
+                current_symbol = current_symbol[['Symbol','Datetime', 'Interval', 'Open', 'High', 'Low', 'Close', 'Volume', 'Exchange']]
+                current_symbol.sort_values(by='Datetime')
+                cash_df = pd.concat([cash_df, current_symbol], ignore_index=True)
+                print(f"Intraday data for {instrument_key} done.")
+            else:
+                print(f"Error fetching intraday data: {response.status_code} - {response.text}")
+        cash_df.reset_index(inplace=True, drop=True)
+        return cash_df
 
 # if __name__ == '__main__':
 
